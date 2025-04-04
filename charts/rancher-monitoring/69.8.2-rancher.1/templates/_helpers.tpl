@@ -225,8 +225,9 @@ The longest name that gets created adds and extra 37 characters, so truncation s
 {{- define "kube-prometheus-stack.labels" }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-app.kubernetes.io/version: "{{ replace "+" "_" .Chart.Version }}"
+app.kubernetes.io/version: {{ .Chart.AppVersion }}
 app.kubernetes.io/part-of: {{ template "kube-prometheus-stack.name" . }}
+helm.sh/chart: {{ template "kube-prometheus-stack.chartref" . }}
 chart: {{ template "kube-prometheus-stack.chartref" . }}
 release: {{ $.Release.Name | quote }}
 heritage: {{ $.Release.Service | quote }}
