@@ -31,6 +31,11 @@ spec:
       - name: patch-sa-{{ $ns }}
         image: {{ template "system_default_registry" $ }}{{ $.Values.global.kubectl.repository }}:{{ $.Values.global.kubectl.tag }}
         imagePullPolicy: {{ $.Values.global.kubectl.pullPolicy }}
+        {{- if and .Values.global.kubectl (hasKey .Values.global.kubectl "kuberlrAllowDownload") }}
+        env:
+          - name: KUBERLR_ALLOWDOWNLOAD
+            value: {{ .Values.global.kubectl.kuberlrAllowDownload | false }}
+        {{- end }}
         command: ["kubectl", "patch", "serviceaccount", "default", "-p", "{\"automountServiceAccountToken\": false}"]
         args: ["-n", "{{ $ns }}"]
       {{- end }}
